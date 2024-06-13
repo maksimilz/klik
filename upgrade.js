@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
 
-    let autoReduceInterval;
-
     function updateDisplay() {
         availablePointsDisplay.textContent = score;
         multiplierDisplay.textContent = damageMultiplier;
@@ -20,13 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
         autoReduceStatusDisplay.textContent = autoReduceEnabled ? 'включен' : 'выключен';
     }
 
-    updateDisplay();
-
     function updateButtons() {
         upgradeDamageButton.disabled = score < 10;
         reduceMonsterHpButton.disabled = score < 100 || autoReduceEnabled;
     }
 
+    updateDisplay();
     updateButtons();
 
     upgradeDamageButton.addEventListener('click', () => {
@@ -37,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setLocalStorageItem('damageMultiplier', damageMultiplier);
             updateDisplay();
             updateButtons();
+            playUpgradeSound();
         }
     });
 
@@ -47,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setLocalStorageItem('score', score);
             setLocalStorageItem('autoReduce', 'true');
             updateDisplay();
-            autoReduceMonsterHp();
             updateButtons();
+            playUpgradeSound();
         }
     });
 
@@ -59,27 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
         autoReduceEnabled = false;
         updateDisplay();
         updateButtons();
+        playGoldSound();
         console.log('Очки и улучшения сброшены');
     });
-
-    function autoReduceMonsterHp() {
-        if (autoReduceInterval) clearInterval(autoReduceInterval);
-        autoReduceInterval = setInterval(() => {
-            let currentMonsterHp = getLocalStorageItem('monsterHp', 100);
-            let baseMonsterHp = getLocalStorageItem('baseMonsterHp', 100);
-            if (currentMonsterHp > 0) {
-                currentMonsterHp = Math.max(currentMonsterHp - 2 * damageMultiplier, 0); // Не допускаем отрицательных значений HP
-                setLocalStorageItem('monsterHp', currentMonsterHp);
-                console.log(`Монстр HP: ${currentMonsterHp}`);
-            } else {
-                baseMonsterHp *= 2; // Сильно увеличиваем базовое HP монстра
-                currentMonsterHp = baseMonsterHp;
-                setLocalStorageItem('monsterHp', currentMonsterHp);
-                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
-                console.log(`Монстр восстановил HP`);
-            }
-        }, 1000);
-    }
 
     function getLocalStorageItem(key, defaultValue) {
         const value = localStorage.getItem(key);
@@ -101,6 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (autoReduceEnabled) {
-        autoReduceMonsterHp();
+        setInterval(() => {
+            let currentMonsterHp = getLocalStorageItem('monsterHp', 100);
+            if (currentMonsterHp > 0) {
+                currentMonsterHp = Math.max(currentMonsterHp - 2 * damageMultiplier, 0);
+                setLocalStorageItem('monsterHp', currentMonsterHp);
+                console.log(`Монстр HP: ${currentMonsterHp}`);
+            } else {
+                currentMonsterHp = getLocalStorageItem('baseMonsterHp', 100);
+                setLocalStorageItem('monsterHp', currentMonsterHp);
+                console.log('Монстр восстановил HP');
+            }
+        }, 1000);
     }
 });
