@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.getElementById('score');
     const monster = document.getElementById('monster');
     const monsterHpDisplay = document.getElementById('monsterHp');
-    const monsters = ['img/monster1.png', 'img/monster2.png', 'img/monster3.png'];
+    const monsters = ['img/monster1.png', 'img/monster2.png', 'img/monster3.png','img/monster4.png','img/monster5.png','img/monster6.png','img/monster7.png','img/monster8.png'];
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
