@@ -29,9 +29,17 @@
         <p>Множитель урона: <span id="multiplier">1</span></p>
     </div>
 
-    <a href="index.html" class="back-link">Вернуться к игре</a>
+    <button class="index" data-href="index.html">Вернуться к игре</button>
 </div>
 <script src="upgrade.js"></script>
 <script src="sounds.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.querySelector('.index');
+        button.addEventListener('click', function() {
+            window.location.href = button.getAttribute('data-href');
+        });
+    });
+</script>
 </body>
 </html>

@@ -17,10 +17,21 @@
         <button id="clickerButton">Кликни меня!</button>
         <p>Очки: <span id="score">0</span></p>
         <button id="resetButton">Обнулить очки</button>
-        <a href="upgrade.html" class="upgrade-link">Перейти к улучшениям</a>
+        <div>
+            <button class="upgrade-link" data-href="upgrade.html">Перейти к улучшениям</button>
+        </div>
     </div>
+
 </div>
 <script src="script.js"></script>
 <script src="sounds.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.querySelector('.upgrade-link');
+        button.addEventListener('click', function() {
+            window.location.href = button.getAttribute('data-href');
+        });
+    });
+</script>
 </body>
 </html>
