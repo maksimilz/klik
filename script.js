@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
     let monsterHp = getLocalStorageItem('monsterHp', 100);
     let currentMonsterIndex = getLocalStorageItem('currentMonsterIndex', 0);
+    let baseMonsterHp = getLocalStorageItem('baseMonsterHp', 100);
     let autoCollectInterval;
 
     scoreDisplay.textContent = score;
@@ -22,24 +23,33 @@ document.addEventListener('DOMContentLoaded', () => {
         setLocalStorageItem('score', score);
 
         if (monsterHp > 0) {
-            monsterHp -= 2 * damageMultiplier;
+            monsterHp = Math.max(monsterHp - 2 * damageMultiplier, 0); // Не допускаем отрицательных значений HP
             updateMonsterHpDisplay(monsterHp);
             setLocalStorageItem('monsterHp', monsterHp);
         }
         if (monsterHp <= 0) {
-            currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
-            monster.src = monsters[currentMonsterIndex];
-            monsterHp = 100;
-            updateMonsterHpDisplay(monsterHp);
-            setLocalStorageItem('monsterHp', monsterHp);
-            setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
+            clickerButton.disabled = true; // Отключаем кнопку, чтобы избежать множественных кликов
+            monster.classList.add('monster-death');
+            setTimeout(() => {
+                currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
+                baseMonsterHp *= 2; // Сильно увеличиваем базовое HP монстра
+                monsterHp = baseMonsterHp;
+                setLocalStorageItem('monsterHp', monsterHp);
+                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
+                setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
+                updateMonsterImage(monsters[currentMonsterIndex]);
+                updateMonsterHpDisplay(monsterHp); // Обновляем HP после смены монстра
+                monster.classList.remove('monster-death');
+                clickerButton.disabled = false; // Включаем кнопку после обновления
+            }, 1000); // Время анимации распада
         }
     });
 
     resetButton.addEventListener('click', () => {
         clearGameData();
         score = 0;
-        monsterHp = 100;
+        baseMonsterHp = 100;
+        monsterHp = baseMonsterHp;
         updateScoreDisplay(score);
         updateMonsterHpDisplay(monsterHp);
         clearInterval(autoCollectInterval);
@@ -74,19 +84,31 @@ document.addEventListener('DOMContentLoaded', () => {
         monsterHpDisplay.textContent = hp;
     }
 
+    function updateMonsterImage(src) {
+        monster.src = src;
+    }
+
     function autoReduceMonsterHp() {
         if (monsterHp > 0) {
-            monsterHp -= 2 * damageMultiplier;
+            monsterHp = Math.max(monsterHp - 2 * damageMultiplier, 0); // Не допускаем отрицательных значений HP
             updateMonsterHpDisplay(monsterHp);
             setLocalStorageItem('monsterHp', monsterHp);
         }
         if (monsterHp <= 0) {
-            currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
-            monster.src = monsters[currentMonsterIndex];
-            monsterHp = 100;
-            updateMonsterHpDisplay(monsterHp);
-            setLocalStorageItem('monsterHp', monsterHp);
-            setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
+            clickerButton.disabled = true; // Отключаем кнопку, чтобы избежать множественных кликов
+            monster.classList.add('monster-death');
+            setTimeout(() => {
+                currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
+                baseMonsterHp *= 2; // Сильно увеличиваем базовое HP монстра
+                monsterHp = baseMonsterHp;
+                setLocalStorageItem('monsterHp', monsterHp);
+                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
+                setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
+                updateMonsterImage(monsters[currentMonsterIndex]);
+                updateMonsterHpDisplay(monsterHp); // Обновляем HP после смены монстра
+                monster.classList.remove('monster-death');
+                clickerButton.disabled = false; // Включаем кнопку после обновления
+            }, 1000); // Время анимации распада
         }
     }
 
@@ -95,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('damageMultiplier');
         localStorage.removeItem('autoReduce');
         localStorage.removeItem('monsterHp');
+        localStorage.removeItem('baseMonsterHp');
         localStorage.removeItem('currentMonsterIndex');
         console.log('Данные игры очищены');
     }

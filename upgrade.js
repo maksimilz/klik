@@ -66,16 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (autoReduceInterval) clearInterval(autoReduceInterval);
         autoReduceInterval = setInterval(() => {
             let currentMonsterHp = getLocalStorageItem('monsterHp', 100);
+            let baseMonsterHp = getLocalStorageItem('baseMonsterHp', 100);
             if (currentMonsterHp > 0) {
-                currentMonsterHp -= 2 * damageMultiplier;
+                currentMonsterHp = Math.max(currentMonsterHp - 2 * damageMultiplier, 0); // Не допускаем отрицательных значений HP
                 setLocalStorageItem('monsterHp', currentMonsterHp);
                 console.log(`Монстр HP: ${currentMonsterHp}`);
             } else {
-                let currentcurrentMonsterHp = 100;
+                baseMonsterHp *= 2; // Сильно увеличиваем базовое HP монстра
+                currentMonsterHp = baseMonsterHp;
                 setLocalStorageItem('monsterHp', currentMonsterHp);
+                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
                 console.log(`Монстр восстановил HP`);
             }
-            updateMonsterHpDisplay(currentMonsterHp);
         }, 1000);
     }
 
@@ -93,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('damageMultiplier');
         localStorage.removeItem('autoReduce');
         localStorage.removeItem('monsterHp');
+        localStorage.removeItem('baseMonsterHp');
         localStorage.removeItem('currentMonsterIndex');
         console.log('Данные улучшений очищены');
     }
