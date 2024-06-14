@@ -75,15 +75,18 @@ button {
     background-color: #0c3ebb;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: background-color 0.3s;
+}
+#clickerButton{
+    border-radius:5rem;
 }
 .upgrade-link{
     padding:10px 20px;
     margin: 10px 20px;
 }
 #damage{
-    color: #d30404;
+    color: rgba(211, 4, 4, 0.22);
 }
 #multiplier{
     color: #d30404;
