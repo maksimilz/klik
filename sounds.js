@@ -4,9 +4,9 @@ const goldSound = new Audio('sound/The_sound_of_gold_co.mp3');
 const upgradeSound = new Audio('sound/unlocking_Upgrades.mp3');
 
 
-clickSound.volume = 0.5;
-destroySound.volume = 0.5;
-goldSound.volume = 0.5;
+clickSound.volume = 0.1;
+destroySound.volume = 0.3;
+goldSound.volume = 0.2;
 upgradeSound.volume = 0.5;
 
 function playClickSound() {

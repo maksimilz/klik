@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
 
     function updateDisplay() {
-        availablePointsDisplay.textContent = score;
-        multiplierDisplay.textContent = damageMultiplier;
-        damageDisplay.textContent = damageMultiplier * 2;
+        availablePointsDisplay.textContent = score.toString();
+        multiplierDisplay.textContent = damageMultiplier.toString();
+        damageDisplay.textContent = (damageMultiplier * 2).toString();
         autoReduceStatusDisplay.textContent = autoReduceEnabled ? 'включен' : 'выключен';
     }
 
