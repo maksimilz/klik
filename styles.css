@@ -122,11 +122,11 @@ button {
 }
 
 #damage {
-    color: rgba(211, 4, 4, 0.22);
+    color: #ce2323;
 }
 #damage:hover{
-    color: #ce2323;
-    font-size: 1rem;
+    color: #0047ff;
+    font-size: 1.3rem;
 }
 #multiplier {
     color: #d30404;
