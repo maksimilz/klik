@@ -7,33 +7,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const multiplierDisplay = document.getElementById('multiplier');
     const damageDisplay = document.getElementById('damage');
     const autoReduceStatusDisplay = document.getElementById('autoReduceStatus');
+    const upgradeDamageCostDisplay = document.getElementById('upgradeDamageCost');
+    const doubleDamageCostDisplay = document.getElementById('doubleDamageCost');
+    const reduceMonsterHpCostDisplay = document.getElementById('reduceMonsterHpCost');
 
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
+    let upgradeDamageCost = getLocalStorageItem('upgradeDamageCost', 10);
+    let doubleDamageCost = getLocalStorageItem('doubleDamageCost', 50);
+    let reduceMonsterHpCost = getLocalStorageItem('reduceMonsterHpCost', 100);
 
     function updateDisplay() {
         availablePointsDisplay.textContent = score.toString();
         multiplierDisplay.textContent = damageMultiplier.toString();
         damageDisplay.textContent = (damageMultiplier * 2).toString();
         autoReduceStatusDisplay.textContent = autoReduceEnabled ? 'включен' : 'выключен';
+        upgradeDamageCostDisplay.textContent = upgradeDamageCost.toString();
+        doubleDamageCostDisplay.textContent = doubleDamageCost.toString();
+        reduceMonsterHpCostDisplay.textContent = reduceMonsterHpCost.toString();
     }
 
     function updateButtons() {
-        upgradeDamageButton.disabled = score < 10;
-        doubleDamageButton.disabled = score < 50;
-        reduceMonsterHpButton.disabled = score < 100 || autoReduceEnabled;
+        upgradeDamageButton.disabled = score < upgradeDamageCost;
+        doubleDamageButton.disabled = score < doubleDamageCost;
+        reduceMonsterHpButton.disabled = score < reduceMonsterHpCost || autoReduceEnabled;
     }
 
     updateDisplay();
     updateButtons();
 
     upgradeDamageButton.addEventListener('click', () => {
-        if (score >= 10) {
-            score -= 10;
+        if (score >= upgradeDamageCost) {
+            score -= upgradeDamageCost;
             damageMultiplier += 1;
+            upgradeDamageCost += 10; // Увеличение стоимости
             setLocalStorageItem('score', score);
             setLocalStorageItem('damageMultiplier', damageMultiplier);
+            setLocalStorageItem('upgradeDamageCost', upgradeDamageCost);
             updateDisplay();
             updateButtons();
             playUpgradeSound();
@@ -41,11 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     doubleDamageButton.addEventListener('click', () => {
-        if (score >= 50) {
-            score -= 50;
+        if (score >= doubleDamageCost) {
+            score -= doubleDamageCost;
             damageMultiplier *= 2;
+            doubleDamageCost += 50; // Увеличение стоимости
             setLocalStorageItem('score', score);
             setLocalStorageItem('damageMultiplier', damageMultiplier);
+            setLocalStorageItem('doubleDamageCost', doubleDamageCost);
             updateDisplay();
             updateButtons();
             playUpgradeSound();
@@ -53,11 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     reduceMonsterHpButton.addEventListener('click', () => {
-        if (score >= 100) {
-            score -= 100;
+        if (score >= reduceMonsterHpCost) {
+            score -= reduceMonsterHpCost;
             autoReduceEnabled = true;
+            reduceMonsterHpCost += 100; // Увеличение стоимости
             setLocalStorageItem('score', score);
             setLocalStorageItem('autoReduce', 'true');
+            setLocalStorageItem('reduceMonsterHpCost', reduceMonsterHpCost);
             updateDisplay();
             updateButtons();
             playUpgradeSound();
@@ -69,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
         score = 0;
         damageMultiplier = 1;
         autoReduceEnabled = false;
+        upgradeDamageCost = 10;
+        doubleDamageCost = 50;
+        reduceMonsterHpCost = 100;
         updateDisplay();
         updateButtons();
         playGoldSound();
@@ -90,10 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('storage', (event) => {
-        if (event.key === 'score' || event.key === 'damageMultiplier' || event.key === 'autoReduce') {
+        if (event.key === 'score' || event.key === 'damageMultiplier' || event.key === 'autoReduce' || event.key === 'upgradeDamageCost' || event.key === 'doubleDamageCost' || event.key === 'reduceMonsterHpCost') {
             score = getLocalStorageItem('score', 0);
             damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
             autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
+            upgradeDamageCost = getLocalStorageItem('upgradeDamageCost', 10);
+            doubleDamageCost = getLocalStorageItem('doubleDamageCost', 50);
+            reduceMonsterHpCost = getLocalStorageItem('reduceMonsterHpCost', 100);
             updateDisplay();
             updateButtons();
         }

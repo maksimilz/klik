@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('resetButton');
     const scoreDisplay = document.getElementById('score');
     const monsterHpDisplay = document.getElementById('monsterHp');
-    const monsters = ['img/monster1.png', 'img/monster2.png', 'img/monster3.png','img/monster4.png','img/monster5.png','img/monster6.png','img/monster7.png','img/monster8.png'];
+    const hpBar = document.getElementById('hpBar');
+    const monsters = ['img/monster1.png', 'img/monster2.png', 'img/monster3.png', 'img/monster4.png', 'img/monster5.png', 'img/monster6.png', 'img/monster7.png', 'img/monster8.png'];
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scoreDisplay.textContent = score;
     monsterHpDisplay.textContent = monsterHp;
+    hpBar.style.width = `${(monsterHp / baseMonsterHp) * 100}%`;
     monster.src = monsters[currentMonsterIndex];
 
     monster.addEventListener('click', () => {
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateMonsterHpDisplay(hp) {
         monsterHpDisplay.textContent = hp;
+        hpBar.style.width = `${(hp / baseMonsterHp) * 100}%`;
     }
 
     function autoReduceMonsterHp() {

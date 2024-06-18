@@ -9,23 +9,38 @@
 <body>
 <div class="container">
     <h1>Улучшения</h1>
-    <p>Доступные очки: <span id="availablePoints">0</span></p>
+    <p>Доступные очки:  <span id="availablePoints">0</span></p>
 
-    <div class="upgrade">
-        <button id="upgradeDamageButton" disabled>Увеличить урон по монстру (10 очков)</button>
+    <div class="upgrade-row">
+        <button id="upgradeDamageButton" class="upgrade-button" disabled>Увеличить урон по монстру</button>
+        <p class="upgrade-cost"><span id="upgradeDamageCost">10</span> очков</p>
     </div>
-    <div class="upgrade">
-        <button id="doubleDamageButton">Увеличить урон по монстру в два раза (50 очков)</button>
-        <p>Текущий урон: <span id="damage">2</span></p>
+    <div class="upgrade-row">
+        <button id="doubleDamageButton" class="upgrade-button" disabled>Увеличить урон по монстру в два раза</button>
+        <p class="upgrade-cost"><span id="doubleDamageCost">50</span> очков</p>
     </div>
-    <div class="upgrade">
-        <button id="reduceMonsterHpButton" disabled>Авто уменьшение HP монстра (100 очков)</button>
-        <p>Авто уменьшение HP: <span id="autoReduceStatus">выключено</span></p>
+    <div class="upgrade-row">
+        <button id="reduceMonsterHpButton" class="upgrade-button" disabled>Авто уменьшение HP монстра</button>
+        <p class="upgrade-cost"><span id="reduceMonsterHpCost">200</span> очков</p>
     </div>
 
-    <div class="upgrade">
-        <p>Множитель урона: <span id="multiplier">1</span></p>
+    <div class="stats-table">
+        <table>
+            <tr>
+                <td>Текущий урон:</td>
+                <td><span id="damage">2</span></td>
+            </tr>
+            <tr>
+                <td>Множитель урона:</td>
+                <td><span id="multiplier">1</span></td>
+            </tr>
+            <tr>
+                <td>Авто уменьшение HP:</td>
+                <td><span id="autoReduceStatus">выключен</span></td>
+            </tr>
+        </table>
     </div>
+
     <button class="index" data-href="index.html">Вернуться к игре</button>
 </div>
 <div class="upgrade">

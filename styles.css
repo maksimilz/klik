@@ -1,88 +1,41 @@
+:root {
+    --primary-color: #0c3ebb;
+    --secondary-color: #932358;
+    --accent-color: #ce2323;
+    --text-color: #333;
+    --background-color: rgba(255, 255, 255, 0.9);
+    --border-color: #ccc;
+    --button-disabled-color: #cccccc;
+}
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-image: url('img/background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-.main-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.monster-container {
-    text-align: center;
-    margin-right: 20px;
-}
-
-.monster {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.monster:hover {
-    transform: scale(1.1);
-}
-
-@keyframes monsterDeath {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-}
-
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-@keyframes monster-death {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.5; }
-    100% { transform: scale(0); opacity: 0; }
-}
-
-.monster-death {
-    animation: monster-death 0.5s forwards;
+    color: var(--text-color);
 }
 
 .container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--background-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 250px; /* Увеличиваем ширину контейнера */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%;
+    margin: 20px;
+    border: 1px solid var(--border-color);
 }
-.container2{
-    position: relative;
-    height: 200px; /* Задайте нужную высоту вашему div */
-    border: 1px solid black;
-}
-#resetButtonContainer {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-}
-#resetUpgradeButton{
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-}
+
 h1 {
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
@@ -90,62 +43,26 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #0c3ebb;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 10px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
     margin: 10px 0;
-}
-#monsterHp{
-    color: #d30404;
-}
-#clickerButton {
-    border-radius: 5rem;
-}
-#score{
-    color: green;
-}
-
-.upgrade-link {
-    padding: 10px 20px;
-    font-size: 16px;
-    width: 200px;
-    display: block;
-    margin: 10px auto;
-}
-
-#resetButton {
-    width: 200px;
-    padding: 10px 20px;
-    font-size: 16px;
-}
-
-#damage {
-    color: #ce2323;
-}
-#damage:hover{
-    color: #0047ff;
-    font-size: 1.3rem;
-}
-#multiplier {
-    color: #d30404;
-}
-
-#availablePoints {
-    color: green;
 }
 
 button:hover {
-    background-color: #932358;
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
 }
 
 button:disabled {
-    background-color: #cccccc;
+    background-color: var(--button-disabled-color);
     cursor: not-allowed;
 }
 
 p {
+    color: var(--text-color);
     margin-top: 17px;
     font-size: 18px;
 }
@@ -162,6 +79,107 @@ a:hover {
     text-decoration: underline;
 }
 
-.upgrade {
-    margin-top: 20px;
+.upgrade-cost {
+    flex-shrink: 0;
+    font-size: 16px;
+    margin-left: 16px;
+    padding: 16px 16px;
+    border-radius: 10px;
+    color: white;
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+.upgrade-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.stats-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+#damage {
+    color: var(--accent-color);
+    transition: font-size 0.3s, color 0.3s;
+}
+
+#damage:hover {
+    color: #0047ff;
+    font-size: 1.3rem;
+}
+
+#multiplier {
+    color: var(--secondary-color);
+}
+
+#availablePoints {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.monster {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.monster:hover {
+    transform: scale(1.1);
+}
+
+@keyframes monster-death {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.monster-death {
+    animation: monster-death 0.5s forwards;
+}
+
+#resetButtonContainer, #resetUpgradeButton {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#resetUpgradeButton:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.hp-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.hp-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, #bb8181, darkred);
+    transition: width 0.3s;
 }
