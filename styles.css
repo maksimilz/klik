@@ -67,7 +67,21 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 250px; /* Увеличиваем ширину контейнера */
 }
-
+.container2{
+    position: relative;
+    height: 200px; /* Задайте нужную высоту вашему div */
+    border: 1px solid black;
+}
+#resetButtonContainer {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+#resetUpgradeButton{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
 h1 {
     margin-bottom: 20px;
 }
@@ -83,9 +97,14 @@ button {
     transition: background-color 0.3s;
     margin: 10px 0;
 }
-
+#monsterHp{
+    color: #d30404;
+}
 #clickerButton {
     border-radius: 5rem;
+}
+#score{
+    color: green;
 }
 
 .upgrade-link {
@@ -114,7 +133,7 @@ button {
 }
 
 #availablePoints {
-    color: #d30404;
+    color: green;
 }
 
 button:hover {
