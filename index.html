@@ -32,13 +32,6 @@
         button.addEventListener('click', function() {
             window.location.href = button.getAttribute('data-href');
         });
-
-        const resetButton = document.getElementById('resetButton');
-        resetButton.addEventListener('click', () => {
-            localStorage.setItem('score', 0);
-            document.getElementById('score').textContent = 0;
-            console.log('Очки обнулены');
-        });
     });
 </script>
 </body>

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateButtons() {
         upgradeDamageButton.disabled = score < 10;
-        doubleDamageButton.disabled = score < 10;
+        doubleDamageButton.disabled = score < 50;
         reduceMonsterHpButton.disabled = score < 100 || autoReduceEnabled;
     }
 
@@ -85,14 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearGameData() {
-        localStorage.removeItem('score');
-        localStorage.removeItem('damageMultiplier');
-        localStorage.removeItem('autoReduce');
-        localStorage.removeItem('monsterHp');
-        localStorage.removeItem('baseMonsterHp');
-        localStorage.removeItem('currentMonsterIndex');
+        localStorage.clear();
         console.log('Данные улучшений очищены');
     }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'score' || event.key === 'damageMultiplier' || event.key === 'autoReduce') {
+            score = getLocalStorageItem('score', 0);
+            damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
+            autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
+            updateDisplay();
+            updateButtons();
+        }
+    });
 
     if (autoReduceEnabled) {
         setInterval(() => {
