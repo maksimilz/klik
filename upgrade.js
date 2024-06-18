@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const availablePointsDisplay = document.getElementById('availablePoints');
     const upgradeDamageButton = document.getElementById('upgradeDamageButton');
+    const doubleDamageButton = document.getElementById('doubleDamageButton');
     const reduceMonsterHpButton = document.getElementById('reduceMonsterHpButton');
     const resetUpgradeButton = document.getElementById('resetUpgradeButton');
     const multiplierDisplay = document.getElementById('multiplier');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateButtons() {
         upgradeDamageButton.disabled = score < 10;
+        doubleDamageButton.disabled = score < 10;
         reduceMonsterHpButton.disabled = score < 100 || autoReduceEnabled;
     }
 
@@ -30,6 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score >= 10) {
             score -= 10;
             damageMultiplier += 1;
+            setLocalStorageItem('score', score);
+            setLocalStorageItem('damageMultiplier', damageMultiplier);
+            updateDisplay();
+            updateButtons();
+            playUpgradeSound();
+        }
+    });
+
+    doubleDamageButton.addEventListener('click', () => {
+        if (score >= 50) {
+            score -= 50;
+            damageMultiplier *= 2;
             setLocalStorageItem('score', score);
             setLocalStorageItem('damageMultiplier', damageMultiplier);
             updateDisplay();

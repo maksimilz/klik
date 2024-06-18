@@ -16,13 +16,14 @@
         </div>
         <button id="clickerButton">Кликни меня!</button>
         <p>Очки: <span id="score">0</span></p>
-        <button id="resetButton">Обнулить очки</button>
-        <div>
+
+        <div class="buttons-container">
             <button class="upgrade-link" data-href="upgrade.html">Перейти к улучшениям</button>
+            <button id="resetButton">Обнулить очки</button>
         </div>
     </div>
-
 </div>
+
 <script src="script.js"></script>
 <script src="sounds.js"></script>
 <script>
@@ -30,6 +31,13 @@
         const button = document.querySelector('.upgrade-link');
         button.addEventListener('click', function() {
             window.location.href = button.getAttribute('data-href');
+        });
+
+        const resetButton = document.getElementById('resetButton');
+        resetButton.addEventListener('click', () => {
+            localStorage.setItem('score', 0);
+            document.getElementById('score').textContent = 0;
+            console.log('Очки обнулены');
         });
     });
 </script>

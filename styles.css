@@ -14,6 +14,7 @@ body {
 .main-container {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .monster-container {
@@ -31,6 +32,7 @@ body {
 .monster:hover {
     transform: scale(1.1);
 }
+
 @keyframes monsterDeath {
     0% {
         opacity: 1;
@@ -41,15 +43,18 @@ body {
         transform: scale(0.5);
     }
 }
+
 @keyframes fadeOut {
     0% { opacity: 1; }
     100% { opacity: 0; }
 }
+
 @keyframes monster-death {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.1); opacity: 0.5; }
     100% { transform: scale(0); opacity: 0; }
 }
+
 .monster-death {
     animation: monster-death 0.5s forwards;
 }
@@ -60,13 +65,12 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 250px; /* Увеличиваем ширину контейнера */
 }
 
 h1 {
     margin-bottom: 20px;
 }
-
-
 
 button {
     padding: 10px 20px;
@@ -77,24 +81,42 @@ button {
     border: none;
     border-radius: 10px;
     transition: background-color 0.3s;
+    margin: 10px 0;
 }
-#clickerButton{
-    border-radius:5rem;
+
+#clickerButton {
+    border-radius: 5rem;
 }
-.upgrade-link{
-    padding:10px 20px;
-    margin: 10px 20px;
+
+.upgrade-link {
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 200px;
+    display: block;
+    margin: 10px auto;
 }
-#damage{
+
+#resetButton {
+    width: 200px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#damage {
     color: rgba(211, 4, 4, 0.22);
 }
-#multiplier{
+#damage:hover{
+    color: #ce2323;
+    font-size: 1rem;
+}
+#multiplier {
     color: #d30404;
 }
 
-#availablePoints{
+#availablePoints {
     color: #d30404;
 }
+
 button:hover {
     background-color: #932358;
 }
@@ -105,7 +127,7 @@ button:disabled {
 }
 
 p {
-    margin-top: 20px;
+    margin-top: 17px;
     font-size: 18px;
 }
 
