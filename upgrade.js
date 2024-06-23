@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const upgradeDamageCostDisplay = document.getElementById('upgradeDamageCost');
     const doubleDamageCostDisplay = document.getElementById('doubleDamageCost');
     const reduceMonsterHpCostDisplay = document.getElementById('reduceMonsterHpCost');
+    const progressBar = document.getElementById('progress');
 
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
@@ -26,12 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
         upgradeDamageCostDisplay.textContent = upgradeDamageCost.toString();
         doubleDamageCostDisplay.textContent = doubleDamageCost.toString();
         reduceMonsterHpCostDisplay.textContent = reduceMonsterHpCost.toString();
+        updateProgress(score);
     }
 
     function updateButtons() {
         upgradeDamageButton.disabled = score < upgradeDamageCost;
         doubleDamageButton.disabled = score < doubleDamageCost;
         reduceMonsterHpButton.disabled = score < reduceMonsterHpCost || autoReduceEnabled;
+    }
+
+    function updateProgress(progress) {
+        progressBar.style.width = progress + '%';
     }
 
     updateDisplay();
@@ -80,6 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     resetUpgradeButton.addEventListener('click', () => {
+        const modal = document.getElementById('resetModal');
+        modal.style.display = 'block';
+    });
+
+    const confirmResetButton = document.getElementById('confirmResetButton');
+    const cancelResetButton = document.getElementById('cancelResetButton');
+    const closeButton = document.querySelector('.close-button');
+
+    confirmResetButton.addEventListener('click', () => {
         clearGameData();
         score = 0;
         damageMultiplier = 1;
@@ -90,7 +105,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay();
         updateButtons();
         playGoldSound();
+        const modal = document.getElementById('resetModal');
+        modal.style.display = 'none';
         console.log('Очки и улучшения сброшены');
+    });
+
+    cancelResetButton.addEventListener('click', () => {
+        const modal = document.getElementById('resetModal');
+        modal.style.display = 'none';
+    });
+
+    closeButton.addEventListener('click', () => {
+        const modal = document.getElementById('resetModal');
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        const modal = document.getElementById('resetModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
     });
 
     function getLocalStorageItem(key, defaultValue) {

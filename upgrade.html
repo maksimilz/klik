@@ -12,16 +12,20 @@
     <p>Доступные очки:  <span id="availablePoints">0</span></p>
 
     <div class="upgrade-row">
-        <button id="upgradeDamageButton" class="upgrade-button" disabled>Увеличить урон по монстру</button>
+        <button id="upgradeDamageButton" class="upgrade-button" disabled title="Увеличивает базовый урон на 1">Увеличить урон по монстру</button>
         <p class="upgrade-cost"><span id="upgradeDamageCost">10</span> очков</p>
     </div>
     <div class="upgrade-row">
-        <button id="doubleDamageButton" class="upgrade-button" disabled>Увеличить урон по монстру в два раза</button>
+        <button id="doubleDamageButton" class="upgrade-button" disabled title="Увеличивает урон в два раза">Увеличить урон по монстру в два раза</button>
         <p class="upgrade-cost"><span id="doubleDamageCost">50</span> очков</p>
     </div>
     <div class="upgrade-row">
-        <button id="reduceMonsterHpButton" class="upgrade-button" disabled>Авто уменьшение HP монстра</button>
+        <button id="reduceMonsterHpButton" class="upgrade-button" disabled title="Автоматически уменьшает HP монстра">Авто уменьшение HP монстра</button>
         <p class="upgrade-cost"><span id="reduceMonsterHpCost">200</span> очков</p>
+    </div>
+
+    <div class="progress-bar">
+        <div id="progress" class="progress"></div>
     </div>
 
     <div class="stats-table">
@@ -46,9 +50,18 @@
 <div class="upgrade">
     <button id="resetUpgradeButton">Обнулить очки и улучшения</button>
 </div>
+
+<div id="resetModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <p>Вы уверены, что хотите обнулить очки и улучшения?</p>
+        <button id="confirmResetButton">Да</button>
+        <button id="cancelResetButton">Нет</button>
+    </div>
+</div>
+
 <script src="upgrade.js"></script>
 <script src="sounds.js"></script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const button = document.querySelector('.index');
@@ -57,6 +70,5 @@
         });
     });
 </script>
-
 </body>
 </html>

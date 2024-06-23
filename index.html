@@ -7,6 +7,7 @@
         :root {
             --primary-color: #0c3ebb;
             --secondary-color: #932358;
+            --tertiary-color: #66a80f;
             --text-color: #333;
             --background-color: rgba(255, 255, 255, 0.9);
             --border-color: #ccc;
@@ -31,15 +32,22 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid lightgray;
-            border-top: 5px solid var(--primary-color);
+            border: 5px solid transparent;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite, change-color 6s infinite;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        @keyframes change-color {
+            0% { border-top-color: var(--primary-color); }
+            25% { border-top-color: var(--secondary-color); }
+            50% { border-top-color: var(--tertiary-color); }
+            75% { border-top-color: var(--secondary-color); }
+            100% { border-top-color: var(--primary-color); }
         }
 
         p {

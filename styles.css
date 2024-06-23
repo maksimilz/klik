@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #0c3ebb;
+    --primary-color: #000b23;
     --secondary-color: #932358;
     --accent-color: #ce2323;
     --text-color: #333;
@@ -96,7 +96,64 @@ a {
 a:hover {
     text-decoration: underline;
 }
+/* Add your existing styles here */
 
+.progress-bar {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.progress {
+    width: 0%;
+    height: 20px;
+    background-color: #4caf50;
+    border-radius: 5px;
+}
+
+.upgrade-button {
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.upgrade-button:enabled:hover {
+    transform: scale(1.1);
+    background-color: #4caf50;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 .upgrade-cost {
     flex-shrink: 0;
     font-size: 16px;
