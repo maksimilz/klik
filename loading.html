@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка...</title>
+    <style>
+        :root {
+            --primary-color: #0c3ebb;
+            --secondary-color: #932358;
+            --text-color: #333;
+            --background-color: rgba(255, 255, 255, 0.9);
+            --border-color: #ccc;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+        }
+
+        #loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid lightgray;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        p {
+            color: var(--text-color);
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div id="loader">
+    <div class="spinner"></div>
+    <p>Загрузка...</p>
+</div>
+<script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 2000);
+    });
+</script>
+</body>
+</html>
