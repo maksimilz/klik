@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateProgress(progress) {
-        progressBar.style.width = progress + '%';
+        progressBar.style.width = Math.min(progress, 100) + '%'; // Ограничение ширины до 100%
     }
 
     updateDisplay();
