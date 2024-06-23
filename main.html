@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер Игра</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="main-container">
+    <div class="container">
+        <h1>Кликер Игра</h1>
+        <div class="monster-info">
+            <img src="img/monster1.png" alt="Monster" id="monster" class="monster">
+            <div class="hp-bar-container">
+                <div id="hpBar" class="hp-bar"></div>
+            </div>
+            <p>HP: <span id="monsterHp">100</span></p>
+        </div>
+        <p>Очки: <span id="score">0</span></p>
+        <div class="buttons-container">
+            <button class="upgrade-link" data-href="upgrade.html">Перейти к улучшениям</button>
+        </div>
+    </div>
+</div>
+<div id="resetButtonContainer">
+    <button id="resetButton">Обнулить очки</button>
+</div>
+<script src="script.js"></script>
+<script src="sounds.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.querySelector('.upgrade-link');
+        button.addEventListener('click', function() {
+            window.location.href = button.getAttribute('data-href');
+        });
+    });
+
+    window.addEventListener('load', function() {
+        console.log('Все ресурсы загружены');
+    });
+</script>
+</body>
+</html>
