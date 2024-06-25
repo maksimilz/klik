@@ -46,28 +46,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const resetModal = document.getElementById('resetModal');
+    const confirmResetButton = document.getElementById('confirmResetButton');
+    const cancelResetButton = document.getElementById('cancelResetButton');
+    const closeButton = document.querySelector('.close-button');
+
     resetButton.addEventListener('click', () => {
-        clearGameData();
-        score = 0;
-        baseMonsterHp = 100;
-        monsterHp = baseMonsterHp;
-        updateScoreDisplay(score);
-        updateMonsterHpDisplay(monsterHp);
-        clearInterval(autoCollectInterval);
-        autoReduceEnabled = false;
-        playGoldSound();
-        console.log('Очки и HP монстра сброшены');
+        resetModal.style.display = 'block';
     });
 
-    if (autoReduceEnabled) {
-        autoCollectInterval = setInterval(() => {
-            score += damageMultiplier;
-            updateScoreDisplay(score);
-            setLocalStorageItem('score', score);
-            console.log('Автоматическое начисление очков');
-            autoReduceMonsterHp();
-        }, 1000);
-    }
+    confirmResetButton.addEventListener('click', () => {
+        clearGameData();
+        resetModal.style.display = 'none';
+    });
+
+    cancelResetButton.addEventListener('click', () => {
+        resetModal.style.display = 'none';
+    });
+
+    closeButton.addEventListener('click', () => {
+        resetModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == resetModal) {
+            resetModal.style.display = 'none';
+        }
+    });
 
     function getLocalStorageItem(key, defaultValue) {
         const value = localStorage.getItem(key);
@@ -117,6 +122,19 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('monsterHp');
         localStorage.removeItem('baseMonsterHp');
         localStorage.removeItem('currentMonsterIndex');
+        document.getElementById('score').textContent = '0';
+        document.getElementById('monsterHp').textContent = '100';
+        document.getElementById('hpBar').style.width = '100%';
         console.log('Данные игры очищены');
+    }
+
+    if (autoReduceEnabled) {
+        autoCollectInterval = setInterval(() => {
+            score += damageMultiplier;
+            updateScoreDisplay(score);
+            setLocalStorageItem('score', score);
+            console.log('Автоматическое начисление очков');
+            autoReduceMonsterHp();
+        }, 1000);
     }
 });
