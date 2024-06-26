@@ -6,6 +6,11 @@
     --background-color: rgba(255, 255, 255, 0.9);
     --border-color: #ccc;
     --button-disabled-color: #cccccc;
+    --modal-background-color: rgba(0,0,0,0.4);
+    --modal-content-background-color: #fefefe;
+    --modal-border-color: #888;
+    --close-button-color: #aaa;
+    --close-button-hover-color: black;
 }
 #loader {
     display: flex;
@@ -39,7 +44,17 @@ body {
     background-repeat: no-repeat;
     color: var(--text-color);
 }
-
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .container {
     text-align: center;
     background-color: var(--background-color);
@@ -131,30 +146,71 @@ a:hover {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: var(--modal-background-color);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--modal-content-background-color);
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--modal-border-color);
+    border-radius: 10px;
     width: 80%;
-    max-width: 400px; /* Ограничим максимальную ширину */
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease-in-out;
 }
 
 .close-button {
-    color: #aaa;
+    color: var(--close-button-color);
     float: right;
     font-size: 28px;
     font-weight: bold;
+    transition: color 0.3s;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
+    color: var(--close-button-hover-color);
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal p {
+    font-size: 18px;
+    color: var(--text-color);
+    margin: 20px 0;
+    text-align: center;
+}
+
+.modal button {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.modal button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); }
+    to { transform: translateY(0); }
 }
 .upgrade-cost {
     flex-shrink: 0;

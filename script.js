@@ -1,6 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.querySelector('.upgrade-link');
+    button.addEventListener('click', function() {
+        window.location.href = button.getAttribute('data-href');
+    });
+
     const monster = document.getElementById('monster');
-    const resetButton = document.getElementById('resetButton');
     const scoreDisplay = document.getElementById('score');
     const monsterHpDisplay = document.getElementById('monsterHp');
     const hpBar = document.getElementById('hpBar');
@@ -42,35 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setLocalStorageItem('baseMonsterHp', baseMonsterHp);
                 setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
                 monster.classList.remove('monster-death');
-            }, 500); // 0.5 seconds for the destruction animation
-        }
-    });
-
-    const resetModal = document.getElementById('resetModal');
-    const confirmResetButton = document.getElementById('confirmResetButton');
-    const cancelResetButton = document.getElementById('cancelResetButton');
-    const closeButton = document.querySelector('.close-button');
-
-    resetButton.addEventListener('click', () => {
-        resetModal.style.display = 'block';
-    });
-
-    confirmResetButton.addEventListener('click', () => {
-        clearGameData();
-        resetModal.style.display = 'none';
-    });
-
-    cancelResetButton.addEventListener('click', () => {
-        resetModal.style.display = 'none';
-    });
-
-    closeButton.addEventListener('click', () => {
-        resetModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target == resetModal) {
-            resetModal.style.display = 'none';
+            }, 500);
         }
     });
 
@@ -111,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setLocalStorageItem('baseMonsterHp', baseMonsterHp);
                 setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
                 monster.classList.remove('monster-death');
-            }, 500); // 0.5 seconds for the destruction animation
+            }, 500);
         }
     }
 
@@ -137,4 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
             autoReduceMonsterHp();
         }, 1000);
     }
+});
+
+window.addEventListener('load', function() {
+    console.log('Все ресурсы загружены');
 });
