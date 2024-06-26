@@ -5,11 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Улучшения</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Опциональные стили для мобильной версии */
+        @media screen and (max-width: 600px) {
+            /* Показываем кнопку меню только на мобильных устройствах */
+            .menu-button {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000; /* Настройка порядка наложения */
+                background-color: var(--accent-color);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
+    <button class="menu-button">Меню</button>
     <h1>Улучшения</h1>
-    <p>Доступные очки:  <span id="availablePoints">0</span></p>
+    <p>Доступные очки: <span id="availablePoints">0</span></p>
 
     <div class="upgrade-row">
         <button id="upgradeDamageButton" class="upgrade-button" disabled title="Увеличивает базовый урон на 1">Увеличить урон по монстру</button>
@@ -47,6 +68,7 @@
 
     <button class="index" data-href="main.html">Вернуться к игре</button>
 </div>
+
 <div class="upgrade">
     <button id="resetUpgradeButton">Обнулить очки и улучшения</button>
 </div>

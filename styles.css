@@ -127,7 +127,11 @@ a:hover {
     border-radius: 5px;
     transition: width 0.3s ease-in-out;
 }
-
+.upgrade {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
 .upgrade-button {
     transition: transform 0.3s, background-color 0.3s;
 }
@@ -138,15 +142,16 @@ a:hover {
 }
 
 .modal {
-    display: none;
     position: fixed;
-    z-index: 1;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: var(--modal-background-color);
+    z-index: 999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -157,9 +162,10 @@ a:hover {
     border: 1px solid var(--modal-border-color);
     border-radius: 10px;
     width: 80%;
-    max-width: 400px;
+    max-width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.5s ease-in-out;
+    z-index: 9999;
 }
 
 .close-button {
@@ -284,8 +290,8 @@ a:hover {
 
 #resetButtonContainer, #resetUpgradeButton {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 15px;
+    bottom: 2px;
     background-color: var(--primary-color);
     color: white;
     padding: 10px 20px;
@@ -315,4 +321,139 @@ a:hover {
     width: 100%;
     background: linear-gradient(to right, #bb8181, darkred);
     transition: width 0.3s;
+}
+/* Add responsive styles for mobile devices */
+@media screen and (max-width: 600px) {
+    /* Показываем кнопку меню только на мобильных устройствах */
+    .menu-button {
+        display: block;
+    }
+}
+@media screen and (max-width: 600px) {
+    .container {
+        max-width: none;
+        width: calc(100% - 40px);
+        margin: 10px;
+    }
+
+    .upgrade-row {
+        flex-direction: column;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .upgrade-cost {
+        margin: 5px 0 0;
+        padding: 5px 10px;
+    }
+
+    .progress-bar {
+        margin: 10px 0;
+    }
+
+    .stats-table td {
+        font-size: 14px;
+    }
+
+    #damage:hover {
+        font-size: 1.2rem;
+    }
+
+    #availablePoints {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: none;
+    }
+
+    .modal p {
+        font-size: 16px;
+    }
+
+    .modal button {
+        font-size: 14px;
+    }
+}
+.upgrade-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upgrade-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--background-color);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.upgrade-dropdown .dropdown-content .upgrade-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.upgrade-dropdown .dropdown-content .upgrade-cost {
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-left: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.upgrade-dropdown .dropdown-content .upgrade-button {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.upgrade-dropdown .dropdown-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 10px 0;
+}
+
+.upgrade-dropdown .dropdown-content button {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.upgrade-dropdown .dropdown-content button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.upgrade-dropdown .dropdown-content.show {
+    display: block;
+}
+.menu-button {
+    display: none; /* Скрываем кнопку изначально */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Настройка порядка наложения */
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }
