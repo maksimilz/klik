@@ -29,7 +29,9 @@
 
     Открыть index.html в браузере для запуска игры.
 
+Доступ в интернете:
+
+Вы также можете играть в эту игру онлайн по ссылке: [Кликер Игра](https://maksimilz.github.io/klik/)
 Авторы:
    maksimilz
-
- https://maksimilz.github.io/klik/
+ 
