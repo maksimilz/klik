@@ -98,9 +98,11 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('monsterHp');
         localStorage.removeItem('baseMonsterHp');
         localStorage.removeItem('currentMonsterIndex');
+
         document.getElementById('score').textContent = '0';
         document.getElementById('monsterHp').textContent = '100';
         document.getElementById('hpBar').style.width = '100%';
+
         console.log('Данные игры очищены');
     }
 
