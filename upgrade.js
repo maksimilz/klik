@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const doubleDamageCostDisplay = document.getElementById('doubleDamageCost');
     const reduceMonsterHpCostDisplay = document.getElementById('reduceMonsterHpCost');
     const progressBar = document.getElementById('progress');
+    const modal = document.getElementById('resetModal');
+    const confirmResetButton = document.getElementById('confirmResetButton');
+    const cancelResetButton = document.getElementById('cancelResetButton');
+    const closeButton = document.querySelector('.close-button');
 
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
@@ -37,95 +41,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateProgress(progress) {
-        progressBar.style.width = Math.min(progress, 100) + '%'; // Ограничение ширины до 100%
+        progressBar.style.width = `${Math.min(progress, 100)}%`;
     }
 
-    updateDisplay();
-    updateButtons();
-
-    upgradeDamageButton.addEventListener('click', () => {
-        if (score >= upgradeDamageCost) {
-            score -= upgradeDamageCost;
-            damageMultiplier += 1;
-            upgradeDamageCost += 10; // Увеличение стоимости
-            setLocalStorageItem('score', score);
-            setLocalStorageItem('damageMultiplier', damageMultiplier);
-            setLocalStorageItem('upgradeDamageCost', upgradeDamageCost);
+    function handleUpgrade(button, cost, callback) {
+        if (score >= cost) {
+            score -= cost;
+            callback();
+            updateLocalStorage();
             updateDisplay();
             updateButtons();
             playUpgradeSound();
         }
+    }
+
+    upgradeDamageButton.addEventListener('click', () => {
+        handleUpgrade(upgradeDamageButton, upgradeDamageCost, () => {
+            damageMultiplier += 1;
+            upgradeDamageCost += 10;
+        });
     });
 
     doubleDamageButton.addEventListener('click', () => {
-        if (score >= doubleDamageCost) {
-            score -= doubleDamageCost;
+        handleUpgrade(doubleDamageButton, doubleDamageCost, () => {
             damageMultiplier *= 2;
-            doubleDamageCost += 50; // Увеличение стоимости
-            setLocalStorageItem('score', score);
-            setLocalStorageItem('damageMultiplier', damageMultiplier);
-            setLocalStorageItem('doubleDamageCost', doubleDamageCost);
-            updateDisplay();
-            updateButtons();
-            playUpgradeSound();
-        }
+            doubleDamageCost += 50;
+        });
     });
 
     reduceMonsterHpButton.addEventListener('click', () => {
-        if (score >= reduceMonsterHpCost) {
-            score -= reduceMonsterHpCost;
+        handleUpgrade(reduceMonsterHpButton, reduceMonsterHpCost, () => {
             autoReduceEnabled = true;
-            reduceMonsterHpCost += 100; // Увеличение стоимости
-            setLocalStorageItem('score', score);
-            setLocalStorageItem('autoReduce', 'true');
-            setLocalStorageItem('reduceMonsterHpCost', reduceMonsterHpCost);
-            updateDisplay();
-            updateButtons();
-            playUpgradeSound();
-        }
+            reduceMonsterHpCost += 100;
+        });
     });
 
     resetUpgradeButton.addEventListener('click', () => {
-        const modal = document.getElementById('resetModal');
         modal.style.display = 'block';
     });
 
-    const confirmResetButton = document.getElementById('confirmResetButton');
-    const cancelResetButton = document.getElementById('cancelResetButton');
-    const closeButton = document.querySelector('.close-button');
-
     confirmResetButton.addEventListener('click', () => {
         clearGameData();
+        resetUpgrades();
+        updateDisplay();
+        updateButtons();
+        playGoldSound();
+        modal.style.display = 'none';
+        console.log('Очки и улучшения сброшены');
+    });
+
+    cancelResetButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    closeButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    function resetUpgrades() {
         score = 0;
         damageMultiplier = 1;
         autoReduceEnabled = false;
         upgradeDamageCost = 10;
         doubleDamageCost = 50;
         reduceMonsterHpCost = 100;
-        updateDisplay();
-        updateButtons();
-        playGoldSound();
-        const modal = document.getElementById('resetModal');
-        modal.style.display = 'none';
-        console.log('Очки и улучшения сброшены');
-    });
-
-    cancelResetButton.addEventListener('click', () => {
-        const modal = document.getElementById('resetModal');
-        modal.style.display = 'none';
-    });
-
-    closeButton.addEventListener('click', () => {
-        const modal = document.getElementById('resetModal');
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        const modal = document.getElementById('resetModal');
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    });
+    }
 
     function getLocalStorageItem(key, defaultValue) {
         const value = localStorage.getItem(key);
@@ -136,13 +122,22 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(key, JSON.stringify(value));
     }
 
+    function updateLocalStorage() {
+        setLocalStorageItem('score', score);
+        setLocalStorageItem('damageMultiplier', damageMultiplier);
+        setLocalStorageItem('autoReduce', autoReduceEnabled.toString());
+        setLocalStorageItem('upgradeDamageCost', upgradeDamageCost);
+        setLocalStorageItem('doubleDamageCost', doubleDamageCost);
+        setLocalStorageItem('reduceMonsterHpCost', reduceMonsterHpCost);
+    }
+
     function clearGameData() {
         localStorage.clear();
         console.log('Данные улучшений очищены');
     }
 
     window.addEventListener('storage', (event) => {
-        if (event.key === 'score' || event.key === 'damageMultiplier' || event.key === 'autoReduce' || event.key === 'upgradeDamageCost' || event.key === 'doubleDamageCost' || event.key === 'reduceMonsterHpCost') {
+        if (['score', 'damageMultiplier', 'autoReduce', 'upgradeDamageCost', 'doubleDamageCost', 'reduceMonsterHpCost'].includes(event.key)) {
             score = getLocalStorageItem('score', 0);
             damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
             autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
@@ -168,4 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1000);
     }
+
+    updateDisplay();
+    updateButtons();
 });

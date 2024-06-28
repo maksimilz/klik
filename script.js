@@ -1,14 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const button = document.querySelector('.upgrade-link');
-    button.addEventListener('click', function() {
-        window.location.href = button.getAttribute('data-href');
-    });
-
     const monster = document.getElementById('monster');
     const scoreDisplay = document.getElementById('score');
     const monsterHpDisplay = document.getElementById('monsterHp');
     const hpBar = document.getElementById('hpBar');
-    const monsters = ['img/monster1.png', 'img/monster2.png', 'img/monster3.png', 'img/monster4.png', 'img/monster5.png', 'img/monster6.png', 'img/monster7.png', 'img/monster8.png'];
+    const monsters = [
+        'img/monster1.png', 'img/monster2.png', 'img/monster3.png',
+        'img/monster4.png', 'img/monster5.png', 'img/monster6.png',
+        'img/monster7.png', 'img/monster8.png'
+    ];
+
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
@@ -17,38 +18,77 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentMonsterIndex = getLocalStorageItem('currentMonsterIndex', 0);
     let autoCollectInterval;
 
-    scoreDisplay.textContent = score;
-    monsterHpDisplay.textContent = monsterHp;
-    hpBar.style.width = `${(monsterHp / baseMonsterHp) * 100}%`;
-    monster.src = monsters[currentMonsterIndex];
-
-    monster.addEventListener('click', () => {
-        score += damageMultiplier;
-        updateScoreDisplay(score);
-        setLocalStorageItem('score', score);
-
-        if (monsterHp > 0) {
-            monsterHp = Math.max(monsterHp - 2 * damageMultiplier, 0);
-            updateMonsterHpDisplay(monsterHp);
-            setLocalStorageItem('monsterHp', monsterHp);
-            playClickSound();
-        }
-        if (monsterHp <= 0) {
-            monster.classList.add('monster-death');
-            playDestroySound();
-            setTimeout(() => {
-                currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
-                monster.src = monsters[currentMonsterIndex];
-                baseMonsterHp = Math.round(baseMonsterHp * 1.5);
-                monsterHp = baseMonsterHp;
-                updateMonsterHpDisplay(monsterHp);
-                setLocalStorageItem('monsterHp', monsterHp);
-                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
-                setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
-                monster.classList.remove('monster-death');
-            }, 500);
-        }
+    button.addEventListener('click', () => {
+        window.location.href = button.getAttribute('data-href');
     });
+
+    updateUI();
+
+    monster.addEventListener('click', onMonsterClick);
+
+    if (autoReduceEnabled) {
+        autoCollectInterval = setInterval(autoCollect, 1000);
+    }
+
+    window.addEventListener('load', () => {
+        console.log('Все ресурсы загружены');
+    });
+
+    function updateUI() {
+        scoreDisplay.textContent = score;
+        monsterHpDisplay.textContent = monsterHp;
+        hpBar.style.width = `${(monsterHp / baseMonsterHp) * 100}%`;
+        monster.src = monsters[currentMonsterIndex];
+    }
+
+    function onMonsterClick() {
+        score += damageMultiplier;
+        updateScore();
+        updateMonsterHp(-2 * damageMultiplier);
+        playClickSound();
+
+        if (monsterHp <= 0) {
+            onMonsterDeath();
+        }
+    }
+
+    function onMonsterDeath() {
+        monster.classList.add('monster-death');
+        playDestroySound();
+        setTimeout(respawnMonster, 500);
+    }
+
+    function respawnMonster() {
+        currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
+        monster.src = monsters[currentMonsterIndex];
+        baseMonsterHp = Math.round(baseMonsterHp * 1.5);
+        monsterHp = baseMonsterHp;
+        updateMonsterHp(0);
+        monster.classList.remove('monster-death');
+    }
+
+    function updateScore() {
+        scoreDisplay.textContent = score;
+        setLocalStorageItem('score', score);
+    }
+
+    function updateMonsterHp(damage) {
+        monsterHp = Math.max(monsterHp + damage, 0);
+        monsterHpDisplay.textContent = monsterHp;
+        hpBar.style.width = `${(monsterHp / baseMonsterHp) * 100}%`;
+        setLocalStorageItem('monsterHp', monsterHp);
+    }
+
+    function autoCollect() {
+        score += damageMultiplier;
+        updateScore();
+        console.log('Автоматическое начисление очков');
+        updateMonsterHp(-2 * damageMultiplier);
+
+        if (monsterHp <= 0) {
+            onMonsterDeath();
+        }
+    }
 
     function getLocalStorageItem(key, defaultValue) {
         const value = localStorage.getItem(key);
@@ -59,64 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem(key, JSON.stringify(value));
     }
 
-    function updateScoreDisplay(score) {
-        scoreDisplay.textContent = score;
-    }
-
-    function updateMonsterHpDisplay(hp) {
-        monsterHpDisplay.textContent = hp;
-        hpBar.style.width = `${(hp / baseMonsterHp) * 100}%`;
-    }
-
-    function autoReduceMonsterHp() {
-        if (monsterHp > 0) {
-            monsterHp = Math.max(monsterHp - 2 * damageMultiplier, 0);
-            updateMonsterHpDisplay(monsterHp);
-            setLocalStorageItem('monsterHp', monsterHp);
-        }
-        if (monsterHp <= 0) {
-            monster.classList.add('monster-death');
-            playDestroySound();
-            setTimeout(() => {
-                currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
-                monster.src = monsters[currentMonsterIndex];
-                baseMonsterHp = Math.round(baseMonsterHp * 1.5);
-                monsterHp = baseMonsterHp;
-                updateMonsterHpDisplay(monsterHp);
-                setLocalStorageItem('monsterHp', monsterHp);
-                setLocalStorageItem('baseMonsterHp', baseMonsterHp);
-                setLocalStorageItem('currentMonsterIndex', currentMonsterIndex);
-                monster.classList.remove('monster-death');
-            }, 500);
-        }
-    }
-
     function clearGameData() {
-        localStorage.removeItem('score');
-        localStorage.removeItem('damageMultiplier');
-        localStorage.removeItem('autoReduce');
-        localStorage.removeItem('monsterHp');
-        localStorage.removeItem('baseMonsterHp');
-        localStorage.removeItem('currentMonsterIndex');
-
-        document.getElementById('score').textContent = '0';
-        document.getElementById('monsterHp').textContent = '100';
-        document.getElementById('hpBar').style.width = '100%';
-
+        ['score', 'damageMultiplier', 'autoReduce', 'monsterHp', 'baseMonsterHp', 'currentMonsterIndex'].forEach(localStorage.removeItem);
+        updateUI();
         console.log('Данные игры очищены');
     }
-
-    if (autoReduceEnabled) {
-        autoCollectInterval = setInterval(() => {
-            score += damageMultiplier;
-            updateScoreDisplay(score);
-            setLocalStorageItem('score', score);
-            console.log('Автоматическое начисление очков');
-            autoReduceMonsterHp();
-        }, 1000);
-    }
-});
-
-window.addEventListener('load', function() {
-    console.log('Все ресурсы загружены');
 });
