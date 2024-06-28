@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = getLocalStorageItem('score', 0);
     let damageMultiplier = getLocalStorageItem('damageMultiplier', 1);
     let autoReduceEnabled = getLocalStorageItem('autoReduce', 'false') === 'true';
-    let monsterHp = getLocalStorageItem('monsterHp', 100);
-    let baseMonsterHp = getLocalStorageItem('baseMonsterHp', 100);
+    let monsterHp = getLocalStorageItem('monsterHp', 200); // Увеличено начальное значение HP монстра
+    let baseMonsterHp = getLocalStorageItem('baseMonsterHp', 200); // Увеличено начальное значение базового HP
     let currentMonsterIndex = getLocalStorageItem('currentMonsterIndex', 0);
     let autoCollectInterval;
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function respawnMonster() {
         currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
         monster.src = monsters[currentMonsterIndex];
-        baseMonsterHp = Math.round(baseMonsterHp * 1.5);
+        baseMonsterHp = Math.round(baseMonsterHp * 2); // Увеличен коэффициент прироста HP монстра
         monsterHp = baseMonsterHp;
         updateMonsterHp(0);
         monster.classList.remove('monster-death');
@@ -129,7 +129,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearGameData() {
-        ['score', 'damageMultiplier', 'autoReduce', 'monsterHp', 'baseMonsterHp', 'currentMonsterIndex'].forEach(localStorage.removeItem);
+        ['score', 'damageMultiplier', 'autoReduce', 'monsterHp', 'baseMonsterHp', 'currentMonsterIndex'].forEach((key) => {
+            localStorage.removeItem(key);
+        });
+        score = 0; // Сброс очков
+        damageMultiplier = 1; // Сброс множителя урона
+        autoReduceEnabled = false; // Сброс автоматического уменьшения HP монстра
+        baseMonsterHp = 200; // Установка базового HP монстра
+        monsterHp = baseMonsterHp; // Установка текущего HP монстра
+        currentMonsterIndex = 0; // Сброс индекса текущего монстра
         updateUI();
         console.log('Данные игры очищены');
     }

@@ -6,7 +6,7 @@
     --background-color: rgba(255, 255, 255, 0.9);
     --border-color: #ccc;
     --button-disabled-color: #cccccc;
-    --modal-background-color: rgba(0,0,0,0.4);
+    --modal-background-color: rgba(0, 0, 0, 0.4);
     --modal-content-background-color: #fefefe;
     --modal-border-color: #888;
     --close-button-color: #aaa;
@@ -34,17 +34,18 @@
 }
 
 body {
+    font-size: 16px; /* Базовый размер шрифта */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-image: url('img/background.png');
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    background-image: url("img/background.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: var(--text-color);
 }
 
 .main-container {
@@ -210,7 +211,7 @@ a:hover {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.modal button:hover {
+button:hover {
     background-color: var(--secondary-color);
     transform: scale(1.05);
 }
@@ -259,6 +260,7 @@ a:hover {
 #damage:hover {
     color: #0047ff;
     font-size: 1.3rem;
+    transform: scale(1.05);
 }
 
 #multiplier {

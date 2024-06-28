@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmResetButton.addEventListener('click', () => {
         clearGameData();
         resetUpgrades();
+        updateLocalStorage();
         updateDisplay();
         updateButtons();
         playGoldSound();
@@ -132,7 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearGameData() {
-        localStorage.clear();
+        localStorage.removeItem('score');
+        localStorage.removeItem('damageMultiplier');
+        localStorage.removeItem('autoReduce');
+        localStorage.removeItem('upgradeDamageCost');
+        localStorage.removeItem('doubleDamageCost');
+        localStorage.removeItem('reduceMonsterHpCost');
         console.log('Данные улучшений очищены');
     }
 
