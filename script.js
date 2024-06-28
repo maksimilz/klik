@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.getElementById('score');
     const monsterHpDisplay = document.getElementById('monsterHp');
     const hpBar = document.getElementById('hpBar');
+    const resetButton = document.getElementById('resetButton');
+    const resetModal = document.getElementById('resetModal');
+    const confirmResetButton = document.getElementById('confirmResetButton');
+    const cancelResetButton = document.getElementById('cancelResetButton');
+    const closeButton = document.querySelector('.close-button');
+
     const monsters = [
         'img/monster1.png', 'img/monster2.png', 'img/monster3.png',
         'img/monster4.png', 'img/monster5.png', 'img/monster6.png',
@@ -20,6 +26,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     button.addEventListener('click', () => {
         window.location.href = button.getAttribute('data-href');
+    });
+
+    resetButton.addEventListener('click', () => {
+        resetModal.style.display = 'block';
+    });
+
+    confirmResetButton.addEventListener('click', () => {
+        clearGameData();
+        resetModal.style.display = 'none';
+    });
+
+    cancelResetButton.addEventListener('click', () => {
+        resetModal.style.display = 'none';
+    });
+
+    closeButton.addEventListener('click', () => {
+        resetModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == resetModal) {
+            resetModal.style.display = 'none';
+        }
     });
 
     updateUI();
