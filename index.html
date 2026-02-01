@@ -1,77 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
-    <link rel="preload" href="img/background.png" as="image">
-
     <meta charset="UTF-8">
-
-    <title>Загрузка...</title>
-
-    <style>
-        :root {
-            --primary-color: #0c3ebb;
-            --secondary-color: #932358;
-            --tertiary-color: #66a80f;
-            --text-color: #333;
-            --background-color: rgba(255, 255, 255, 0.9);
-            --border-color: #ccc;
-        }
-
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background-color: var(--background-color);
-        }
-
-        #loader {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite, change-color 6s infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes change-color {
-            0% { border-top-color: var(--primary-color); }
-            25% { border-top-color: var(--secondary-color); }
-            50% { border-top-color: var(--tertiary-color); }
-            75% { border-top-color: var(--secondary-color); }
-            100% { border-top-color: var(--primary-color); }
-        }
-
-        p {
-            color: var(--text-color);
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер Игра</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="img/background.png" as="image">
 </head>
+
 <body>
-<div id="loader">
-    <div class="spinner"></div>
-    <p>Загрузка...</p>
-</div>
-<script>
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            window.location.href = 'main.html';
-        }, 2000);
-    });
-</script>
+
+    <!-- Loading Screen -->
+    <div id="loader" class="screen">
+        <div class="spinner"></div>
+        <p>Загрузка...</p>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="screen hidden">
+        <div class="main-container">
+            <div class="container game-panel">
+                <div class="header-stats">
+                    <div class="stat-box">
+                        <span class="label">Очки</span>
+                        <span id="score" class="value">0</span>
+                    </div>
+                </div>
+
+                <div class="monster-container">
+                    <div class="monster-area">
+                        <img src="" alt="Monster" id="monster" class="monster">
+                        <!-- Damage numbers will be appended here -->
+                    </div>
+
+                    <div class="hp-info">
+                        <div class="hp-bar-bg">
+                            <div id="hpBar" class="hp-bar-fill"></div>
+                            <span id="hpText" class="hp-text">100 / 100</span>
+                        </div>
+                        <div class="stage-info">Уровень <span id="stage">1</span></div>
+                    </div>
+                </div>
+
+                <div class="controls-container">
+                    <button id="toShopButton" class="nav-button shop-btn">
+                        Магазин
+                    </button>
+                    <button id="settingsButton" class="nav-button settings-btn">
+                        ⚙️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop/Upgrade Screen -->
+    <div id="shop-screen" class="screen hidden">
+        <div class="main-container">
+            <div class="container shop-panel">
+                <h2>Магазин Улучшений</h2>
+
+                <div class="shop-header">
+                    <div class="currency">💰 <span id="shopScore">0</span></div>
+                    <button id="backToGameButton" class="close-btn">✖</button>
+                </div>
+
+                <div class="upgrades-list">
+                    <!-- Damage Upgrade -->
+                    <div class="upgrade-item">
+                        <div class="upgrade-info">
+                            <h3>Сила клика</h3>
+                            <p>Урон: +1</p>
+                        </div>
+                        <div class="upgrade-action">
+                            <span class="current-stat">Текущий: <span id="damageVal">1</span></span>
+                            <button id="btnUpgradeDamage" class="upgrade-btn">
+                                <span class="cost" id="costUpgradeDamage">10</span> 💰
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Double Damage Upgrade -->
+                    <div class="upgrade-item">
+                        <div class="upgrade-info">
+                            <h3>Двойной удар</h3>
+                            <p>Урон: x2</p>
+                        </div>
+                        <div class="upgrade-action">
+                            <span class="current-stat">Множитель: <span id="multiplierVal">1</span>x</span>
+                            <button id="btnDoubleDamage" class="upgrade-btn">
+                                <span class="cost" id="costDoubleDamage">50</span> 💰
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Auto Damage Upgrade -->
+                    <div class="upgrade-item">
+                        <div class="upgrade-info">
+                            <h3>Наемник</h3>
+                            <p>Авто-атака</p>
+                        </div>
+                        <div class="upgrade-action">
+                            <span class="current-stat" id="autoDamageStatus">Выкл</span>
+                            <button id="btnAutoDamage" class="upgrade-btn">
+                                <span class="cost" id="costAutoDamage">100</span> 💰
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset/Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="margin-top:0">Настройки</h2>
+            <p>Вы действительно хотите сбросить весь прогресс?</p>
+            <div class="modal-actions">
+                <button id="confirmResetButton" class="danger-btn">Сбросить прогресс</button>
+                <button id="cancelResetButton" class="secondary-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="sounds.js"></script>
+    <script src="game.js"></script>
 </body>
+
 </html>
